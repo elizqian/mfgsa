@@ -18,6 +18,7 @@ fcns{2} = @(Z) model2(Z);   % low-fidelity
 fcns{3} = @(Z) model3(Z);   % lowest-fidelity
 
 w = [1; 0.05; 0.001];       % assign model weights/costs
+vec = [1 1 1];              % says each model is vectorized
 
 d = 3;          % dimension of uncertain input
 
@@ -44,7 +45,7 @@ for n = 1:n_reps
     
     % call mfsobol.m with just the high-fidelity model to get Monte
     % Carlo estimate
-    [mu,sigsq,sm,st] = mfsobol(fcns(1),d,w(1),stats,budget);
+    [mu,sigsq,sm,st] = mfsobol(fcns(1),d,w(1),stats,budget,vec(1));
     avg(n,1) = mu; 
     vr(n,1) = sigsq;
     mc_sm(n,:) = sm;
@@ -52,7 +53,7 @@ for n = 1:n_reps
     
     % call mfsobol.m with full array of functions to get multifidelity
     % estimates
-    [mu,sigsq,sm,st] = mfsobol(fcns,d,w,stats,budget);
+    [mu,sigsq,sm,st] = mfsobol(fcns,d,w,stats,budget,vec);
     avg(n,2) = mu; 
     vr(n,2) = sigsq;
     mf_sm(n,:) = sm;

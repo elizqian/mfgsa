@@ -1,9 +1,11 @@
 % estimate statistics of high- and low-fidelity models using N samples
 
 % INPUTS
-% fcns      cell array of anonymous functions corresponding to high- and
-%           low-fidelity models (hi-fid must be first)
+% fcns      k-by-1cell array of anonymous functions corresponding to high- 
+%           and low-fidelity models (hi-fid must be first)
 % N         number of samples to use to estimate statistics
+% vec       k-by-1 boolean vector that indicates whether the models in fcns
+%           are vectorized or not. False is default.
 
 % OUTPUT
 % stats     struct with fields {mu, sigma, delta, tau, q, rho}
@@ -11,7 +13,11 @@
 % AUTHOR
 % Elizabeth Qian (elizqian@mit.edu) 14 June 2019
 
-function stats = estimate_statistics(fcns,N)
+function stats = estimate_statistics(fcns,N,vec)
+
+if nargin == 2
+    vec = zeros(size(fcns));
+end
 
 Z = generate_inputs(N);
 
@@ -21,17 +27,23 @@ f_vals = zeros(N,k);
 
 % loop through models
 for i = 1:k
-    f_vals(:,i) = fcns{i}(Z);   % assumes vectorized functions; need to loop thru inputs if not vectorized
+    if vec(i)
+        f_vals(:,i) = fcns{i}(Z);   
+    else
+        for j = 1:N
+            f_vals(j,i) = fcns{i}(Z(j,:));
+        end
+    end
 end
 
 stats.mu      = mean(f_vals)';
 stats.sigma   = std(f_vals)';
 
-g_vals        = (f_vals - stats.mu).^2;
+g_vals        = (f_vals - stats.mu').^2;
 
 a             = N^2/((N-1)*(N^2-3*N+3));
 b             = 3*(2*N-3)/(N^2-3*N+3);
-stats.delta   = (a*sum(g_vals.^2) - b*stats.sigma.^4)';
+stats.delta   = (a*sum(g_vals.^2) - b*stats.sigma'.^4)';
 
 stats.tau     = std(g_vals)';
 
