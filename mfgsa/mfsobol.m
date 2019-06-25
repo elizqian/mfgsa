@@ -37,8 +37,6 @@ Z_A = generate_inputs(m(end));
 Z_B = generate_inputs(m(end));
 
 % compute all evaluations of high-fidelity model
-% this code assumes all models are vectorized - if models are not
-% vectorized, need rewrite code to loop through inputs
 if vec(1)
     yA = fcns{1}(Z_A(1:m(1),:));
     yB = fcns{1}(Z_B(1:m(1),:));
@@ -73,8 +71,7 @@ sigsq   = var([yA; yB]);
 % loop through low-fidelity models
 for j = 2:length(m)
     
-    % get function evalutions - again, this code is for vectorized
-    % functions
+    % get function evalutions
     if vec(j)
         yA = fcns{j}(Z_A(1:m(j),:));
         yB = fcns{j}(Z_B(1:m(j),:));
