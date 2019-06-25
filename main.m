@@ -22,7 +22,7 @@ vec = [1 1 1];              % says each model is vectorized
 
 d = 3;          % dimension of uncertain input
 
-budget = 200;   % define computational budget
+budget = 2000;   % define computational budget
 
 % if analytical statistics are not available, estimate them. otherwise load
 % true statistics from file
@@ -45,7 +45,7 @@ for n = 1:n_reps
     
     % call mfsobol.m with just the high-fidelity model to get Monte
     % Carlo estimate
-    [mu,sigsq,sm,st] = mfsobol(fcns(1),d,w(1),stats,budget,vec(1));
+    [sm,st,mu,sigsq] = mfsobol(fcns(1),d,w(1),stats,budget,vec(1),'Owen');
     avg(n,1) = mu; 
     vr(n,1) = sigsq;
     mc_sm(n,:) = sm;
@@ -53,7 +53,7 @@ for n = 1:n_reps
     
     % call mfsobol.m with full array of functions to get multifidelity
     % estimates
-    [mu,sigsq,sm,st] = mfsobol(fcns,d,w,stats,budget,vec);
+    [sm,st,mu,sigsq] = mfsobol(fcns,d,w,stats,budget,vec,'Owen');
     avg(n,2) = mu; 
     vr(n,2) = sigsq;
     mf_sm(n,:) = sm;

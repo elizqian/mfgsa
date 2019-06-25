@@ -1,6 +1,7 @@
+function [sm,st] = estimate_sobol(yA,yB,yC,method)
 % computes main and total effect sensitivities from matrices of function
 % evaluations yA,yB,yCi
-
+%
 % INPUTS
 % yA        M-by-1 first set of function evaluations
 % yB        M-by-1 second set of function evaluations
@@ -8,15 +9,14 @@
 %           at the same inputs that led to yB except replacing the i-th
 %           column of the input with the i-th column of yA
 % method    'Owen' or 'Saltelli'; uses Owen estimators by default.
-
+%
 % OUTPUTS
 % sm        d-by-1 vector of main effect sensitivities
 % st        d-by-1 vector of total effect sensitivities
-
+%
 % AUTHOR
 % Elizabeth Qian (elizqian@mit.edu) 17 June 2019
 
-function [sm,st] = estimate_sobol(yA,yB,yC,method)
 if nargin == 3
     method = 'Owen';
 end

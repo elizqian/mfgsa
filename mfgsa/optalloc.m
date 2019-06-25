@@ -1,6 +1,7 @@
+function [m,alpha] = optalloc(p,w,stats,varopt)
 % determines number of model evaluations and weights for multifidelity
 % variance and sensitivity index estimation
-
+%
 % INPUTS
 % p         computational budget (divide by (d+2) for effective budget for
 %           Sobol sensitivity analysis)
@@ -10,15 +11,13 @@
 %           minimize variance of variance estimator. if false, return
 %           m, alpha that minimize variance of mean estimator. false by
 %           default.
-
+%
 % OUTPUTS
 % m         k-by-1 vector of number of times to evaluate each model
 % alpha     k-by-1 vector of multifidelity estimator weights
-
+%
 % AUTHOR
 % Elizabeth Qian (elizqian@mit.edu) 17 June 2019
-
-function [m,alpha] = optalloc(p,w,stats,varopt)
 
 if nargin == 3
     varopt = false;    

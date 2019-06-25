@@ -1,19 +1,18 @@
+function stats = estimate_statistics(fcns,N,vec)
 % estimate statistics of high- and low-fidelity models using N samples
-
+%
 % INPUTS
 % fcns      k-by-1cell array of anonymous functions corresponding to high- 
 %           and low-fidelity models (hi-fid must be first)
 % N         number of samples to use to estimate statistics
 % vec       k-by-1 boolean vector that indicates whether the models in fcns
 %           are vectorized or not. False is default.
-
+%
 % OUTPUT
 % stats     struct with fields {mu, sigma, delta, tau, q, rho}
-
+%
 % AUTHOR
 % Elizabeth Qian (elizqian@mit.edu) 14 June 2019
-
-function stats = estimate_statistics(fcns,N,vec)
 
 if nargin == 2
     vec = zeros(size(fcns));

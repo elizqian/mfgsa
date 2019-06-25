@@ -1,6 +1,7 @@
+function [sm,st,mu,sigsq] = mfsobol(fcns,d,w,stats,p,vec,estim)
 % computes multifidelity estimate of mean, variance, and Sobol' main and
 % total effect sensitivity indices
-
+%
 % INPUTS
 % fcns      k-by-1 cell array of functions corresponding to different models
 % d         dimension of uncertaint input
@@ -9,20 +10,22 @@
 % p         total computational budget
 % vec       k-by-1 boolean vector that indicates whether the models in fcns
 %           are vectorized or not. False is default.
-
+% estim     'Owen' or 'Saltelli' argument to be passed to estimate_sobol
+%
 % OUTPUTS
 % mu        multifidelity mean estimate of high-fidelity model in fcns{1}
 % sigsq     multifid. variance estimate of high-fidelity model in fcns{1}
 % sm        d-by-1 vector of Sobol' main effect sensitivity indices
 % st        d-by-1 vector of Sobol' total effect sensitivity indices
-
+%
 % AUTHOR
 % Elizabeth Qian (elizqian@mit.edu) 17 June 2019
 
-function [mu,sigsq,sm,st] = mfsobol(fcns,d,w,stats,p,vec)
-
-if nargin == 5
+if nargin <= 5
     vec = zeros(size(fcns));
+end
+if nargin <= 6
+    estim = 'Owen';
 end
 
 % get optimal number of evaluations and weights using effective budget
@@ -65,7 +68,7 @@ end
 % initialize all statistics with their high-fidelity values
 mu      = mean([yA; yB]);
 sigsq   = var([yA; yB]);
-[sm,st] = estimate_sobol(yA,yB,yC);
+[sm,st] = estimate_sobol(yA,yB,yC,estim);
 
 % loop through low-fidelity models
 for j = 2:length(m)
@@ -102,8 +105,8 @@ for j = 2:length(m)
     mu    = mu + alpha(j)*(mean([yA; yB]) - mean([yA(1:m(j-1)); yB(1:m(j-1))]));
     sigsq = sigsq + alpha(j)*(var([yA; yB]) - var([yA(1:m(j-1)); yB(1:m(j-1))]));
     
-    [sm1,st1] = estimate_sobol(yA,yB,yC);
-    [sm2,st2] = estimate_sobol(yA(1:m(j-1)),yB(1:m(j-1)), yC(1:m(j-1),:));
+    [sm1,st1] = estimate_sobol(yA,yB,yC,estim);
+    [sm2,st2] = estimate_sobol(yA(1:m(j-1)),yB(1:m(j-1)), yC(1:m(j-1),:),estim);
     
     sm    = sm + alpha(j)*(sm1-sm2);
     st    = st + alpha(j)*(st1-st2);
