@@ -24,13 +24,11 @@ end
 N = length(yA);
 
 muA = mean(yA);
-muB = mean(yB);
 varA = var(yA);
-varB = var(yB);
 
 switch method
     case 'Owen'
-        sm = 2*N/(2*N-1)*(yA'*yC/N - (muA+muB)^2/4 + (varA+varB)/(4*N))/varA;
+        sm = 2*N/(2*N-1)*(yA'*yC/N - (muA+mean(yC)).^2/4 + (varA+var(yC))/(4*N))/varA;
         st = 1/(2*N)*sum((yB-yC).^2)/varA;
     case 'Saltelli'
         sm = (1/(N-1)*yA'*yC - muA^2)/varA;
