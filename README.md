@@ -20,7 +20,7 @@ SIAM/ASA Journal on Uncertainty Quantification, 6(2):683-706, 2018. <details><su
 
 Two examples from the above paper are provided:
 * The `ishigami` folder contains everything needed to run the numerical experiments for the analytical Ishigami function example. This is a baseline example for implementing our multifidelity estimation strategy when you can evaluate your functions at different inputs in real time.
-* The `CDR` folder contains the samples needed to run the numerical experiments for the convection-diffusion-reaction example. This is a baseline exmaple for implementing our multifidelity estimation strategy when you have to precompute your samples and bootstrap from the pre-computed sample for sensitivity index estimation. Note that the pre-computed samples must take a special form.
+* The `CDR` folder contains the samples needed to run the numerical experiments for the convection-diffusion-reaction example. This is a baseline exmaple for implementing our multifidelity estimation strategy when you have to precompute your samples and bootstrap from the pre-computed sample for sensitivity index estimation. 
 
 ## Global sensitivity analysis
 When a model has uncertain inputs, the model output is also uncertain. Variance-based global sensitivity analysis quantifies the relative influence of each of these uncertain inputs on the output by dividing the total variance into percentages of the variance due to each of the inputs and due to interactions between inputs. For example, the Ishigami function has 3 random inputs, Z<sub>1</sub>, Z<sub>2</sub>, and Z<sub>3</sub>, each distributed uniformly on the interval [-&#120587;,&#120587;]:
