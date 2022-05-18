@@ -10,7 +10,7 @@
 % Elizabeth Qian (elizqian@mit.edu) 17 June 2019
 
 %% SETUP
-clear
+clear; close all
 addpath('../mfgsa')
 
 % define high-fidelity and low-fidelity models
@@ -42,11 +42,13 @@ avg   = zeros(n_reps,2);    vr    = zeros(n_reps,2);
 mc_sm = zeros(n_reps,d);    mc_st = zeros(n_reps,d);
 mf_sm = zeros(n_reps,d);    mf_st = zeros(n_reps,d);
 
+method = 'Saltelli';
+
 for n = 1:n_reps
     
     % call mfsobol.m with just the high-fidelity model to get Monte
     % Carlo estimate
-    [sm,st,mu,sigsq] = mfsobol(fcns(1),d,w(1),stats,budget,vec(1),'Owen');
+    [sm,st,mu,sigsq] = mfsobol(fcns(1),d,w(1),stats,budget,vec(1),method);
     avg(n,1) = mu; 
     vr(n,1) = sigsq;
     mc_sm(n,:) = sm;
@@ -54,7 +56,7 @@ for n = 1:n_reps
     
     % call mfsobol.m with full array of functions to get multifidelity
     % estimates
-    [sm,st,mu,sigsq] = mfsobol(fcns,d,w,stats,budget,vec,'Owen');
+    [sm,st,mu,sigsq] = mfsobol(fcns,d,w,stats,budget,vec,method);
     avg(n,2) = mu; 
     vr(n,2) = sigsq;
     mf_sm(n,:) = sm;
@@ -75,18 +77,20 @@ set(h,{'linew'},{2}); grid on
 legend(flipud(findall(gca,'Tag','Box')), {'High-fidelity estimate','Multifidelity estimate'},...
     'Location','SouthWest','interpreter','latex'); legend boxoff
 bp = gca;   bp.XAxis.TickLabelInterpreter = 'latex';
-title('Main sensitivity estimates for Ishigami function','interpreter','latex')
+title([method,' main sensitivity estimates for Ishigami function'],'interpreter','latex')
 
-% plot total effect sensitivity indices
-figure(2); clf
-h = boxplot([mc_st(:,1), mf_st(:,1), mc_st(:,2), mf_st(:,2), mc_st(:,3), mf_st(:,3)],...
-    'Colors',[blue; red; blue; red; blue; red],'Whisker',10,...
-    'labels',{'MC $s_t^1$','MF $s_t^1$','MC $s_t^2$','MF $s_t^2$','MC $s_t^3$','MF $s_t^3$'});
-set(h,{'linew'},{2}); grid on
-hLegend = legend(flipud(findall(gca,'Tag','Box')), {'High-fidelity estimate','Multifidelity estimate'},...
-    'Location','NorthEast','interpreter','latex'); legend boxoff
-bp = gca;   bp.XAxis.TickLabelInterpreter = 'latex';
-title('Total sensitivity estimates for Ishigami function','interpreter','latex')
+if strcmp(method,'Owen') || strcmp(method,'Saltelli')
+    % plot total effect sensitivity indices
+    figure(2); clf
+    h = boxplot([mc_st(:,1), mf_st(:,1), mc_st(:,2), mf_st(:,2), mc_st(:,3), mf_st(:,3)],...
+        'Colors',[blue; red; blue; red; blue; red],'Whisker',10,...
+        'labels',{'MC $s_t^1$','MF $s_t^1$','MC $s_t^2$','MF $s_t^2$','MC $s_t^3$','MF $s_t^3$'});
+    set(h,{'linew'},{2}); grid on
+    hLegend = legend(flipud(findall(gca,'Tag','Box')), {'High-fidelity estimate','Multifidelity estimate'},...
+        'Location','NorthEast','interpreter','latex'); legend boxoff
+    bp = gca;   bp.XAxis.TickLabelInterpreter = 'latex';
+    title([method,' total sensitivity estimates for Ishigami function'],'interpreter','latex')
+end
 
 % plot variance estimates
 figure(3); clf
