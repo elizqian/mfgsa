@@ -1,13 +1,22 @@
 % computes multifidelity sensitivity index and variance estimates for the
 % Ishigami function and compares to the high-fidelity Monte Carlo estimate
 
-% PAPER
+% PAPERS
 % E. Qian, B. Peherstorfer, D. O'Malley, V. Vesselinov, and K. Willcox
 % Multifidelity estimation of variance and sensitivity indices
 % SIAM/ASA Journal on Uncertainty Quantification, 6(2):683-706, 2018.
-
-% AUTHOR
-% Elizabeth Qian (elizqian@mit.edu) 17 June 2019
+%
+% G. Cataldo, E. Qian, and J. Auclair
+% Multifidelity uncertainty quantification and model validation of
+% large-scale multidisciplinary systems
+% Journal of Astronomical Telescopes, Instruments and Systems, 2022
+%
+% AUTHORS
+% Elizabeth Qian (elizqian@alum.mit.edu) 
+% Giuseppe Cataldo
+%
+% LAST UPDATED
+% 18 May 2022
 
 %% SETUP
 clear; close all
@@ -42,7 +51,7 @@ avg   = zeros(n_reps,2);    vr    = zeros(n_reps,2);
 mc_sm = zeros(n_reps,d);    mc_st = zeros(n_reps,d);
 mf_sm = zeros(n_reps,d);    mf_st = zeros(n_reps,d);
 
-method = 'Saltelli';
+method = 'Gamboa';
 
 for n = 1:n_reps
     
