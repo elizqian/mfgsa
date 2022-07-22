@@ -18,7 +18,19 @@ SIAM/ASA Journal on Uncertainty Quantification, 6(2):683-706, 2018. <details><su
   publisher={SIAM}
 }</pre></details>
 
-2. Cataldo, G., Qian, E., and Auclair, J. Multifidelity uncertainty quantification and model validation of large-scale multidisciplinary systems. In revision, 2022.
+2. Cataldo, G., Qian, E., and Auclair, J. [Multifidelity uncertainty quantification and model validation of large-scale multidisciplinary systems](https://www.spiedigitallibrary.org/journals/Journal-of-Astronomical-Telescopes-Instruments-and-Systems/volume-8/issue-3/038001/Multifidelity-uncertainty-quantification-and-model-validation-of-large-scale-multidisciplinary/10.1117/1.JATIS.8.3.038001.full?SSO=1). Journal of Astronomical Telescopes, Instruments, and Systems, 8(3):038001, 2022. <details><summary>BibTeX</summary><pre>
+@article{cataldo2022multifidelity,
+  title={Multifidelity uncertainty quantification and model validation of large-scale multidisciplinary systems},
+  author={Cataldo, Giuseppe and Qian, Elizabeth and Auclair, Jeremy},
+  journal={Journal of Astronomical Telescopes, Instruments, and Systems},
+  volume={8},
+  number={3},
+  pages={038001},
+  year={2022},
+  publisher={SPIE},
+  doi = {10.1117/1.JATIS.8.3.038001},
+  URL = {https://doi.org/10.1117/1.JATIS.8.3.038001}
+}</pre></details>
 
 Two examples from [1] are provided:
 * The `ishigami` folder contains everything needed to run the numerical experiments for the analytical Ishigami function example. This is a baseline example for implementing our multifidelity estimation strategy when you can evaluate your functions at different inputs in real time.
